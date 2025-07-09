@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Validador de CPF/CNPJ</title>
+    <style>
+        body { font-family: sans-serif; margin: 2rem; }
+        input, button { padding: 0.5rem; font-size: 1rem; }
+        .resultado { margin-top: 1rem; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h2>Validador de CPF/CNPJ</h2>
+
+    <input type="text" id="documento" name="cpf" placeholder="Digite o CPF ou CNPJ">
+    <button onclick="validar()">Validar</button>
+
+    <div class="resultado" id="resultado"></div>
+
+    <script>
+        async function validar() {
+            const doc = document.getElementById("documento").value;
+            const resultado = document.getElementById("resultado");
+
+            try{
+                const resposta = await fetch("http://localhost:8080/validar", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({documento: doc}),
+                });
+
+                const dados = await resposta.json();
+
+                if(resposta.ok){
+                    resultado.innerText = `Tipo: ${dados.Tipo}\nVálido: ${dados.Valido ? "Sim" : "Não"}`;
+                    resultado.style.cssText = dados.Valido ? "color: green" : "color: red";
+                }else{
+                    resultado.innerText = dados.erro || "Erro: campo invalido";
+                    resultado.style.cssText = "color: red";
+                }
+            }catch (err) {
+                resultado.innerText = "Erro ao conectar com a API";
+                resultado.style.cssText = "color: red";
+            }
+        }
+    </script>
+</body>
+</html>
