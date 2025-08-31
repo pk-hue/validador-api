@@ -87,7 +87,7 @@ Você pode usar o arquivo `index.html` que já está no projeto para testar dire
 }
 ```
 
-Ou, em caso de erro: 
+Ou, em caso de erro:
 
 ```json
 {
