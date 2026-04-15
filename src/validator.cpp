@@ -50,6 +50,7 @@ bool validarCNPJ(const std::string& cnpjRecebido) {
         return (resto < 2) ? 0 : 11 - resto;
     };
 
+    //return precisa ser refatorado!
     return (cnpj[12] - '0') == calcDigito(pesos1, 12) &&
            (cnpj[13] - '0') == calcDigito(pesos2, 13);
 }
